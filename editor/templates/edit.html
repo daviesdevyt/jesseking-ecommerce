@@ -30,20 +30,32 @@
           </div>
           <div class="card-body text-center">
             <div class="d-flex mt-n6 mx-auto">
-              <a class="btn btn-link text-primary ms-auto border-0" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-original-title="" title="">
+              <a
+                class="btn btn-link text-info me-auto border-0"
+                edit-btn
+                onclick="edit_product('{{p.id}}', '{{p.name}}', '{{p.in_stock}}')"
+                type="button"
+                data-target="#editProductModal"
+                data-toggle="modal"
+                data-bs-placement="bottom"
+              >
+                <i class="material-icons opacity-10">edit</i>
+              </a>
+              <a
+                class="btn btn-link text-primary ms-auto border-0"
+                onclick="delete_product('{{p.id}}', '{{p.name}}')"
+                type="button"
+                data-target="#delProductModal"
+                data-toggle="modal"
+                data-bs-placement="bottom"
+              >
                 <i class="material-icons opacity-10">delete</i>
               </a>
             </div>
             <h5 class="font-weight-normal mt-3">
               <a href="javascript:;">{{ p.name }}</a>
             </h5>
-            <p class="mb-0">
-              {% if p.in_stock %}
-                In stock
-              {% else %}
-              Not in stock
-              {% endif %}
-            </p>
+            <p class="mb-0">{% if p.in_stock %} In stock {% else %} Not in stock {% endif %}</p>
           </div>
         </div>
       </div>
@@ -89,4 +101,74 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="editProductModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Product</h4>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="card-body">
+          <form role="form" class="text-start" method="post" enctype="multipart/form-data" action="{% url 'edit_product' %}" id="edit_product">
+            {% csrf_token %}
+            <input type="hidden" value="" edit-id name="id" />
+            <div class="input-group input-group-outline mb-3">
+              <input type="text" edit-name class="form-control" name="name" required />
+            </div>
+            <div class="form-check form-switch ps-0">
+              <input class="form-check-input ms-auto" edit-instock type="checkbox" name="in_stock" id="inStockSwitchCheckDefault" />
+              <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="inStockSwitchCheckDefault">In stock?</label>
+            </div>
+            <div class="form-check form-switch ps-0">
+              <input class="form-check-input ms-auto" edit-draft type="checkbox" name="in_draft" id="draftSwitchCheckDefault" />
+              <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="draftSwitchCheckDefault">Save to draft</label>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="delProductModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="card-body">
+          <div class="text-center">Are you sure you want to delete <span del-product-name></span></div>
+          <form action="{% url 'delete_product' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" del-id name="id" value="" />
+            <div class="text-center">
+              <button type="submit" class="btn bg-danger w-100 my-4 mb-2"><span style="color: white">DELETE FOREVER</span></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  in_stock = document.querySelector("[edit-instock]");
+  function edit_product(id, name, instock) {
+    $("[edit-id]").val(id);
+    $("[edit-name]").val(name);
+    if (instock == "True") in_stock.setAttribute("checked", "true");
+    else in_stock.removeAttribute("checked");
+  }
+  function delete_product(id, name) {
+    $("[del-product-name]").html(name);
+    $("[del-id]").val(id);
+  }
+</script>
 {% endblock %}
