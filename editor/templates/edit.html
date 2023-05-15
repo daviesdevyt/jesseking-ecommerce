@@ -8,7 +8,7 @@
       <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
         <div class="row">
           <div class="col-6 d-flex align-items-center">
-            <h6 class="text-white text-capitalize ps-3">Live Products</h6>
+            <h6 class="text-white text-capitalize ps-3">{% if draft %}Draft{% else %}Live{% endif %} Products</h6>
           </div>
           <div class="col-6 text-end" style="right: 10px; position: relative">
             <button type="button" class="btn bg-gradient-dark mb-0" data-toggle="modal" data-target="#newProductModal">
@@ -18,22 +18,23 @@
         </div>
       </div>
     </div>
+    <br>
     <div class="row mt-lg-5 mt-4 removable">
       {% for p in products %}
       <div class="col-lg-4 col-md-6 mb-5">
         <div class="card mb-4" data-animation="true">
           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
             <a class="d-block text-center blur-shadow-image" style="width: auto; height: auto">
-              <img src="" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg" />
+              <img src="{% static p.image %}" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg" />
             </a>
-            <div class="colored-shadow" style="background-image: url('')"></div>
+            <div class="colored-shadow" style="background-image: url('{% static p.image %}')"></div>
           </div>
           <div class="card-body text-center">
             <div class="d-flex mt-n6 mx-auto">
               <a
-                class="btn btn-link text-info me-auto border-0"
+                class="btn btn-link text-info ms-auto border-0"
                 edit-btn
-                onclick="edit_product('{{p.id}}', '{{p.name}}', '{{p.in_stock}}')"
+                onclick="edit_product('{{p.id}}', '{{p.name}}', '{{p.in_stock}}', '{{p.in_draft}}')"
                 type="button"
                 data-target="#editProductModal"
                 data-toggle="modal"
@@ -42,7 +43,7 @@
                 <i class="material-icons opacity-10">edit</i>
               </a>
               <a
-                class="btn btn-link text-primary ms-auto border-0"
+                class="btn btn-link text-primary me-auto border-0"
                 onclick="delete_product('{{p.id}}', '{{p.name}}')"
                 type="button"
                 data-target="#delProductModal"
@@ -80,6 +81,9 @@
               <label class="form-label">Name</label>
               <input type="text" class="form-control" name="name" required />
             </div>
+            <div class="input-group input-group-outline mb-3">
+              <input type="file" class="form-control" name="image" required />
+            </div>
             <div class="form-check form-switch ps-0">
               <input class="form-check-input ms-auto" type="checkbox" name="in_stock" id="inStockSwitchCheckDefault" checked />
               <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="inStockSwitchCheckDefault">In stock?</label>
@@ -116,6 +120,9 @@
             <input type="hidden" value="" edit-id name="id" />
             <div class="input-group input-group-outline mb-3">
               <input type="text" edit-name class="form-control" name="name" required />
+            </div>
+            <div class="input-group input-group-outline mb-3">
+              <input type="file" class="form-control" name="image" />
             </div>
             <div class="form-check form-switch ps-0">
               <input class="form-check-input ms-auto" edit-instock type="checkbox" name="in_stock" id="inStockSwitchCheckDefault" />
@@ -160,11 +167,14 @@
 
 <script>
   in_stock = document.querySelector("[edit-instock]");
-  function edit_product(id, name, instock) {
+  in_draft = document.querySelector("[edit-draft]");
+  function edit_product(id, name, instock, indraft) {
     $("[edit-id]").val(id);
     $("[edit-name]").val(name);
     if (instock == "True") in_stock.setAttribute("checked", "true");
     else in_stock.removeAttribute("checked");
+    if (indraft == "True") in_draft.setAttribute("checked", "true");
+    else in_draft.removeAttribute("checked");
   }
   function delete_product(id, name) {
     $("[del-product-name]").html(name);
