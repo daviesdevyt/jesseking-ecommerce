@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" href="{% static 'main.js' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="icon" href="{% static 'images/img/bag1.jpg' %}" />
+    <title>JESSEKING</title>
+  </head>
+  <body>
+    <header>
+      <a href="#" class="logo"><i class="bx bxs-shopping-bag">JESSEKING</i></a>
+      <i class="bx bx-menu" id="menu-icon"></i>
+
+      <ul class="navbar">
+        <li><a href="#home">home</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="#products">products</a></li>
+      </ul>
+      <div class="header-icon">
+        <i class="bx bx-search" id="search-icon"></i>
+      </div>
+
+      <div class="search-box">
+        <input type="search" name="" id="" placeholder="Search here" />
+      </div>
+    </header>
+    <!--home-->
+    <section class="home" id="home">
+      <div class="home-text">
+        <h3>Fashion bag</h3>
+        <h1>Look <span>Stylish</span> <br /><span>Be</span> Stylish</h1>
+        <p>WELCOME TO JESSEKING</p>
+        <a href="#products" class="btn">EXPLORE</a>
+      </div>
+      <div class="home-img">
+        <img src="{% static 'images/img/home.png'%}" />
+      </div>
+    </section>
+
+    <!--products-->
+
+    <section class="products" id="products">
+      <div class="heading">
+        <h2>OUR Popular Products</h2>
+      </div>
+
+      <!--profuct container-->
+      <div class="products-container">
+        {% for product in products %}
+        <div class="box">
+          <img src="{% static product.image %}" />
+          {% if product.in_stock %}
+          <a class="add-to-cart" href="https://wa.me/+2349057564565" target="_blank">
+              <h4>BUY NOW</h4>
+          </a>
+          {% else %}
+          <a class="add-to-cart" style="background: rgb(182, 182, 182)" href="https://wa.me/+2349057564565" target="_blank">
+            <h4>OUT OF STOCK</h4>
+          </a>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    <section class="footer">
+      <div class="footer-box">
+        <a href="#" class="logo"><i class="bx bxs-shopping-bag">JESSEKING</i></a>
+        <p>Dealers in Quality Designers Ladies<br />Shoes, Bags, Purses & Wears.</p>
+        <div class="social">
+          <a href="https://instagram.com/jessekingventures?igshid=NTc4MTIwNjQ2YQ=="><i class="bx bxl-instagram"></i></a>
+        </div>
+        <div class="footer-box">
+          <h3>Support</h3>
+          <li><a href="#products">Products</a></li>
+          <li><a href="/about">Help</a></li>
+        </div>
+
+        <div class="footer-box">
+          <h3>Contacts</h3>
+          <span><i class="bx bxs-map"></i>Block B51, Shop 6, Wuse market, Abuja</span>
+          <span><i class="bx bxs-map"></i>+234 905 756 4565</span>
+          <span><i class="bx bxs-map"></i>+234 811 276 2703</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="copyright">
+      <p>@Copyright All right reserved</p>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>

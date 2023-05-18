@@ -15,7 +15,7 @@ def create_product(request):
         name = request.POST.get("name")
         in_stock = True if request.POST.get("in_stock") else False
         in_draft = True if request.POST.get("in_draft") else False
-        image = request.FILES.get('photo')
+        image = request.FILES.get('image')
         Product.objects.create(name=name, in_stock=in_stock, in_draft=in_draft, image=image)
     return redirect(request.META["HTTP_REFERER"])
 
@@ -31,7 +31,8 @@ def edit_product(request):
             prod.name = name
             prod.in_draft = in_draft
             prod.in_stock = in_stock
-            prod.image = image
+            if image:
+                prod.image = image
             prod.save()
     return redirect(request.META["HTTP_REFERER"])
 
