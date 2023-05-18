@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'jesseking.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'qlwneyuf',
+        'USER': 'qlwneyuf',
+        'PASSWORD': 'CP-Ld3csB_EjkcIcrAEtEMkX25CdDWYO',
+        'HOST': 'mahmud.db.elephantsql.com',
+        'PORT': '5432',
     }
 }
 
@@ -123,6 +127,8 @@ STATICFILES_DIRS = [
     BASE_DIR/"uploads"
 ]
 STATIC_URL = 'static/'
+
+LOGIN_URL = "/admin/login"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
