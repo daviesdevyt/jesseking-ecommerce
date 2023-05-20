@@ -51,7 +51,10 @@ def delete_product(request):
         _id = request.POST.get("id")
         prod = Product.objects.get(id=_id)
         if prod:
-            os.remove(prod.image.path)
+            try:
+                os.remove(prod.image.path)
+            except:
+                pass
             prod.delete()
     return redirect(request.META["HTTP_REFERER"])
 
@@ -62,7 +65,6 @@ def login_page(request):
         user = authenticate(request, username="jesseking", password=pwd)
         if user:
             login(request, user)
-            print("Logged in")
             return redirect("edit_products_list")
         else:
             messages.error(request, "Incorrect password")
